@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<dict>
+			<key>row</key>
+			<string>0</string>
+			<key>name</key>
+			<string>意见反馈</string>
+			<key>icon</key>
+			<string>settings_feedback_icon.png</string>
+		</dict>
+		<dict>
+			<key>row</key>
+			<string>1</string>
+			<key>name</key>
+			<string>给我评分</string>
+			<key>icon</key>
+			<string>settings_rate_icon.png</string>
+		</dict>
+		<dict>
+			<key>row</key>
+			<string>2</string>
+			<key>name</key>
+			<string>新版本检测</string>
+			<key>icon</key>
+			<string>settings_upgrade_icon.png</string>
+		</dict>
+		<dict>
+			<key>row</key>
+			<string>3</string>
+			<key>name</key>
+			<string>关于</string>
+			<key>icon</key>
+			<string>settings_about_icon.png</string>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>row</key>
+			<string>4</string>
+			<key>name</key>
+			<string>退出当前帐号</string>
+			<key>icon</key>
+			<string>settings_signout_icon.png</string>
+		</dict>
+	</array>
+</array>
+</plist>

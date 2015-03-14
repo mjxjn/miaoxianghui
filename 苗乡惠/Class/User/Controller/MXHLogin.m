@@ -234,7 +234,7 @@
            account.uid = JSON[@"data"][@"id"];
            account.phone = JSON[@"data"][@"phone"];
            [[MXHAccountTool sharedAccountTool] saveAccount:account];
-            
+           
             // 回到主页面
             self.view.window.rootViewController = [[MXHMain alloc] init];
         }else

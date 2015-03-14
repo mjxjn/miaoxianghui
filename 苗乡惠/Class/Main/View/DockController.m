@@ -47,6 +47,5 @@
     
     [self.view addSubview:newVc.view];
     
-    MyLog(@"选项卡切换了");
 }
 @end

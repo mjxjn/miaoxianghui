@@ -77,6 +77,7 @@
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(tFrame)+10, self.view.frame.size.width - 14, self.view.frame.size.height-CGRectGetMaxY(tFrame)-10)];
     [scroll addSubview:content];
     scroll.contentSize = textSize;
+    scroll.showsVerticalScrollIndicator = NO;
     [self.view addSubview:scroll];
 }
 - (void)didReceiveMemoryWarning

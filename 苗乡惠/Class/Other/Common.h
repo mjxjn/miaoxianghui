@@ -15,3 +15,20 @@
 
 // 设置tableView的边框宽度
 #define kTableBorderWidth 8
+
+CG_INLINE BOOL stringIsEmpty(NSString *string) {
+    if([string isKindOfClass:[NSNull class]]){
+        return YES;
+    }
+    if (string == nil) {
+        return YES;
+    }
+    if ([string isEqualToString:@"(null)"]) {
+        return YES;
+    }
+    NSString *text = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([text length] == 0) {
+        return YES;
+    }
+    return NO;
+}

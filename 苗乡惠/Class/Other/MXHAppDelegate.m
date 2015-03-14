@@ -11,6 +11,7 @@
 #import "MXHAccountTool.h"
 #import "MXHMain.h"
 #import "MXHNewfeature.h"
+#import "HttpTool.h"
 
 @implementation MXHAppDelegate
 
@@ -45,6 +46,39 @@
         self.window.rootViewController = [[MXHNewfeature alloc] init];
 
     }
+    
+    NSMutableArray *newarray = [NSMutableArray array];
+    NSMutableArray *moreData = [NSMutableArray array];
+    //加载设置
+    [HttpTool getWithPath:@"adtype" params:nil success:^(id JSON) {
+        NSArray *array = JSON[@"data"];
+        
+        for (NSDictionary *dict in array) {
+            //MXHSet *i = [[MXHSet alloc] initWithDict:dict];
+            //[_moreData addObject:i];
+            NSMutableDictionary *newdic = [NSMutableDictionary dictionary];
+            [newdic setValue:dict[@"typename"] forKey:@"name"];
+            [newdic setValue:@"" forKey:@"icon"];
+            [newdic setValue:dict[@"id"] forKey:@"row"];
+            [newarray addObject:newdic];
+        }
+        [moreData addObject:newarray];
+        
+        //获取应用程序沙盒的Documents目录
+        NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+        NSString *plistPath1 = [paths objectAtIndex:0];
+        
+        //得到完整的文件名
+        NSString *filename=[plistPath1 stringByAppendingPathComponent:@"Setting.plist"];
+        //创建
+        NSFileManager* fm = [NSFileManager defaultManager];
+        [fm createFileAtPath:filename contents:nil attributes:nil];
+        //输入写入
+        [moreData writeToFile:filename atomically:YES];
+
+    } failure:^(NSError *error) {
+        nil;
+    }];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MXHWareHouse : UIViewController
+@interface MXHWareHouse : UIViewController<UITableViewDataSource,UITableViewDelegate>
+
+@property(nonatomic,retain)UITableView *tableView;
+//@property(nonatomic,retain)NSMutableArray *list;
 
 @end

@@ -128,7 +128,7 @@
     
     CGFloat phonex = labelwidth + 16;
     CGFloat phoney = labely;
-    CGFloat phonewidth = fromwidth - labelwidth - 20;
+    CGFloat phonewidth = fromwidth - labelwidth - kSideWidth;
     CGFloat phoneheight = labelheight;
     
     _phone = [[UITextField alloc] initWithFrame:CGRectMake(phonex, phoney, phonewidth, phoneheight)];
