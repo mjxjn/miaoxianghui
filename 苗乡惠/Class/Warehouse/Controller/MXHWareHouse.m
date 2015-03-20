@@ -16,6 +16,7 @@
 #import "MXHWareHouseInfo.h"
 #import "MJRefresh.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "MXHShowData.h"
 
 @interface MXHWareHouse ()
 {
@@ -169,6 +170,7 @@
 #pragma mark - pushPublishData
 -(void)pushPublishData{
     MXHSendData *send = [[MXHSendData alloc] init];
+    send.did = @"0";
     [self.navigationController pushViewController:send animated:YES];
 }
 
@@ -189,16 +191,16 @@
     
     return cell;
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    MXHDataCellFrame *cellFrame = _infoFrames[indexPath.row];
+    MXHShowData *showData = [[MXHShowData alloc] init];
+    showData.did = [NSString stringWithFormat:@"%lld",cellFrame.info.did];
+    [self.navigationController pushViewController:showData animated:YES];
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-*/
+
 #pragma mark - tableView delaget methods
 #pragma mark 返回每一行cell的高度 每次tableView刷新数据的时候都会调用
 // 而且会一次性算出所有cell的高度，比如有100条数据，一次性调用100次

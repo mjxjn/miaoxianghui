@@ -36,7 +36,6 @@
                                                  failure(error);
                                              }];
 }
-
 + (void)dataWithSendInfo:(NSDictionary *)params success:(DataSuccessBlock)success failure:(DataFailureBlock)failure{
     [HttpTool getWithPath:@"warehouseupdate" params:params success:^(id JSON) {
         if (success == nil) return;
@@ -45,6 +44,30 @@
         // 解析json对象
         NSString *code = JSON[@"code"];
         [info addObject:code];
+        
+        // 回调block
+        success(info);
+    } failure:^(NSError *error) {
+        if (failure == nil) return;
+        
+        failure(error);
+    }];
+}
+
++ (void)dataInfoWithSendInfo:(NSDictionary *)params success:(DataInfoSuccessBlock)success failure:(DataFailureBlock)failure{
+    [HttpTool getWithPath:@"warehousebyid" params:params success:^(id JSON) {
+        if (success == nil) return;
+        
+        NSMutableDictionary *info = [NSMutableDictionary dictionary];
+        // 解析json对象
+        NSString *code = JSON[@"code"];
+        [info setObject:code forKey:@"code"];
+        NSDictionary *array = JSON[@"data"];
+//        for (NSDictionary *dict in array) {
+            MXHWareHouseInfo *i = [[MXHWareHouseInfo alloc] initWithDict:array];
+            [info setObject:i forKey:@"data"];
+//        }
+        
         // 回调block
         success(info);
     } failure:^(NSError *error) {

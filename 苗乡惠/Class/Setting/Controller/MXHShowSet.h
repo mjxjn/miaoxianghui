@@ -10,4 +10,8 @@
 
 @interface MXHShowSet : UIViewController
 
+@property (nonatomic, copy) NSString *tag;
+
+- (MXHShowSet *) initWithTag:(NSString *)tag;
+
 @end

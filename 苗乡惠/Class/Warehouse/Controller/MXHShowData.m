@@ -1,19 +1,18 @@
 //
-//  MXHSendData.m
+//  MXHShowData.m
 //  苗乡惠
 //
-//  Created by saga on 15-3-2.
+//  Created by saga on 15-3-19.
 //  Copyright (c) 2015年 saga. All rights reserved.
 //
 
-#import "MXHSendData.h"
-#import "UIBarButtonItem+MXH.h"
-#import "UIImage+MXH.h"
-#import "MXHWareHouseTool.h"
+#import "MXHShowData.h"
 #import <QuartzCore/QuartzCore.h>
-#import "MXHToolbar.h"
+#import "UIBarButtonItem+MXH.h"
+#import "MXHWareHouseTool.h"
 #import "MBProgressHUD.h"
 #import "MXHWareHouseInfo.h"
+#import "MXHSendData.h"
 
 #define kSideWidth 20
 #define kLineHeight 44
@@ -24,39 +23,34 @@
 #define kFromTop 30
 #define kInputTop 4
 
-@interface MXHSendData () <UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface MXHShowData ()
 {
     UIView *_from;
     UITextField *_startDate;
     UITextField *_endDate;
     UITextField *_sn;
     UITextField *_name, *_bname , *_unit , *_num , *_price , *_plantDate , *_xj , *_mj , *_dj , *_height , *_gf , *_fzgd , *_tqdx , *_status , *_sg , *_sx , *_remarks;
-    
-    NSArray *_pickerArray;
 }
 @end
 
-@implementation MXHSendData
+@implementation MXHShowData
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"添加苗木信息";
+    
+    self.title = @"查看苗木信息";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBackgroundImage:@"return.png" title:@"返回" target:self action:@selector(backWareHouse)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithIcon:nil title:@"保存" target:self action:@selector(sendData)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithIcon:nil title:@"编辑" target:self action:@selector(editData)];
     
     self.view.backgroundColor = UIColorFromRGB2(245, 248, 246);
+
+    [self addUIFrom];
     
-    if ([self.did isEqual:@"0"]) {
-        [self addUIFrom];
-    }else{
-        [self addUIFrom];
-        //加载数据
-        [self addLoadInfo];
-    }
+    [self addLoadInfo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,6 +58,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - addLoadInfo
 - (void) addLoadInfo{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -146,16 +141,11 @@
     _startDate.leftView = startDateSpaceview;
     _startDate.leftViewMode = UITextFieldViewModeAlways;
     _startDate.text = loctime;
-    _startDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
+//    _startDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _startDate.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     _startDate.tag = 100;
-    UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0.0,0.0,0.0,0.0)];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged ];
-    _startDate.inputView = datePicker;
-    MXHToolbar *tool = [MXHToolbar initWithAction:@selector(clickDone:) tag:1001 owner:self];
-    _startDate.inputAccessoryView = tool;
+    _startDate.enabled = NO;
     
     UIView *line01 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(startDateLabel.frame)+kBorderWidth , fromwidth, 1)];
     line01.layer.borderWidth = 1;
@@ -181,15 +171,10 @@
     _endDate.leftView = endDateSpaceview;
     _endDate.leftViewMode = UITextFieldViewModeAlways;
     _endDate.text = loctime;
-    _endDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
+//    _endDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _endDate.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _endDate.tag = 101;
-    UIDatePicker *endDatePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0.0,0.0,0.0,0.0)];
-    endDatePicker.datePickerMode = UIDatePickerModeDate;
-    [endDatePicker addTarget:self action:@selector(endDateChanged:) forControlEvents:UIControlEventValueChanged ];
-    _endDate.inputView = endDatePicker;
-    tool = [MXHToolbar initWithAction:@selector(clickDone:) tag:1011 owner:self];
-    _endDate.inputAccessoryView = tool;
+    _endDate.enabled = NO;
     
     UIView *line02 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(endDateLabel.frame)+kBorderWidth , fromwidth, 1)];
     line02.layer.borderWidth = 1;
@@ -218,10 +203,10 @@
     //_sn.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _sn.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _sn.font = [UIFont systemFontOfSize:16.0];
-    _sn.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _sn.keyboardType = UIKeyboardTypeDefault;
-    _sn.returnKeyType = UIReturnKeyDone;
-    _sn.delegate = self;
+//    _sn.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _sn.keyboardType = UIKeyboardTypeDefault;
+//    _sn.returnKeyType = UIReturnKeyDone;
+    _sn.enabled = NO;
     _sn.tag = 102;
     
     UIView *line03 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(snLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -251,10 +236,10 @@
     //_name.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _name.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _name.font = [UIFont systemFontOfSize:16.0];
-    _name.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _name.keyboardType = UIKeyboardTypeDefault;
-    _name.returnKeyType = UIReturnKeyDone;
-    _name.delegate = self;
+//    _name.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _name.keyboardType = UIKeyboardTypeDefault;
+//    _name.returnKeyType = UIReturnKeyDone;
+    _name.enabled = NO;
     _name.tag = 103;
     
     UIView *line04 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -281,19 +266,10 @@
     _bname.leftView = bnameSpaceview;
     _bname.leftViewMode = UITextFieldViewModeAlways;
     _bname.text = @"法桐";
-    _bname.backgroundColor = UIColorFromRGB2(235, 235, 235);
+//    _bname.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _bname.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _bname.tag = 104;
-    _pickerArray = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TreeType.plist" ofType:nil]];
-    UIPickerView *bnameSelectPicker = [[UIPickerView alloc] init];
-    bnameSelectPicker.tag = 1041;
-    _bname.inputView = bnameSelectPicker;
-    tool = [MXHToolbar initWithAction:@selector(clickDone:) tag:1042 owner:self];
-    _bname.inputAccessoryView = tool;
-    bnameSelectPicker.delegate = self;
-    bnameSelectPicker.dataSource = self;
-    bnameSelectPicker.showsSelectionIndicator = YES;
-    bnameSelectPicker.frame = CGRectMake(0, 480, 320, 216);
+    _bname.enabled = NO;
     
     UIView *line05 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bnameLabel.frame)+kBorderWidth , fromwidth, 1)];
     line05.layer.borderWidth = 1;
@@ -322,10 +298,10 @@
     //_unit.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _unit.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _unit.font = [UIFont systemFontOfSize:16.0];
-    _unit.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _unit.keyboardType = UIKeyboardTypeDefault;
-    _unit.returnKeyType = UIReturnKeyDone;
-    _unit.delegate = self;
+//    _unit.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _unit.keyboardType = UIKeyboardTypeDefault;
+//    _unit.returnKeyType = UIReturnKeyDone;
+    _unit.enabled = NO;
     _unit.tag = 105;
     
     UIView *line06 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(unitLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -355,13 +331,11 @@
     //_num.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _num.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _num.font = [UIFont systemFontOfSize:16.0];
-    _num.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _num.keyboardType = UIKeyboardTypeNumberPad;
-    _num.returnKeyType = UIReturnKeyDone;
-    _num.delegate = self;
+//    _num.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _num.keyboardType = UIKeyboardTypeNumberPad;
+//    _num.returnKeyType = UIReturnKeyDone;
+    _num.enabled = NO;
     _num.tag = 106;
-    tool = [MXHToolbar initWithAction:@selector(clickDone:) tag:1061 owner:self];
-    _num.inputAccessoryView = tool;
     
     UIView *line07 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(numLabel.frame)+kBorderWidth , fromwidth, 1)];
     line07.layer.borderWidth = 1;
@@ -390,10 +364,10 @@
     //_price.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _price.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _price.font = [UIFont systemFontOfSize:16.0];
-    _price.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _price.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _price.returnKeyType = UIReturnKeyDone;
-    _price.delegate = self;
+//    _price.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _price.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _price.returnKeyType = UIReturnKeyDone;
+    _price.enabled = NO;
     _price.tag = 107;
     
     UIView *line08 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(priceLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -420,16 +394,10 @@
     _plantDate.leftView = plantDateSpaceview;
     _plantDate.leftViewMode = UITextFieldViewModeAlways;
     _plantDate.text = loctime;
-    _plantDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
+//    _plantDate.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _plantDate.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _plantDate.tag = 108;
-    UIDatePicker *plantDatePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0.0,0.0,0.0,0.0)];
-    plantDatePicker.datePickerMode = UIDatePickerModeDate;
-    plantDatePicker.maximumDate = nowDate;
-    [plantDatePicker addTarget:self action:@selector(plantDateChanged:) forControlEvents:UIControlEventValueChanged ];
-    _plantDate.inputView = plantDatePicker;
-    tool = [MXHToolbar initWithAction:@selector(clickDone:) tag:1081 owner:self];
-    _plantDate.inputAccessoryView = tool;
+    _plantDate.enabled = NO;
     
     UIView *line09 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(plantDateLabel.frame)+kBorderWidth , fromwidth, 1)];
     line09.layer.borderWidth = 1;
@@ -458,10 +426,10 @@
     //_xj.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _xj.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _xj.font = [UIFont systemFontOfSize:16.0];
-    _xj.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _xj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _xj.returnKeyType = UIReturnKeyDone;
-    _xj.delegate = self;
+//    _xj.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _xj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _xj.returnKeyType = UIReturnKeyDone;
+    _xj.enabled = NO;
     _xj.tag = 109;
     
     UIView *line10 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(xjLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -491,10 +459,10 @@
     //_mj.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _mj.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _mj.font = [UIFont systemFontOfSize:16.0];
-    _mj.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _mj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _mj.returnKeyType = UIReturnKeyDone;
-    _mj.delegate = self;
+//    _mj.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _mj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _mj.returnKeyType = UIReturnKeyDone;
+    _mj.enabled = NO;
     _mj.tag = 110;
     
     UIView *line11 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(mjLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -524,10 +492,10 @@
     //_dj.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _dj.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _dj.font = [UIFont systemFontOfSize:16.0];
-    _dj.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _dj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _dj.returnKeyType = UIReturnKeyDone;
-    _dj.delegate = self;
+//    _dj.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _dj.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _dj.returnKeyType = UIReturnKeyDone;
+    _dj.enabled = NO;
     _dj.tag = 111;
     
     UIView *line12 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(djLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -557,10 +525,10 @@
     //_height.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _height.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _height.font = [UIFont systemFontOfSize:16.0];
-    _height.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _height.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _height.returnKeyType = UIReturnKeyDone;
-    _height.delegate = self;
+//    _height.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _height.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _height.returnKeyType = UIReturnKeyDone;
+    _height.enabled = NO;
     _height.tag = 112;
     
     UIView *line13 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(heightLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -590,10 +558,10 @@
     //_gf.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _gf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _gf.font = [UIFont systemFontOfSize:16.0];
-    _gf.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _gf.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _gf.returnKeyType = UIReturnKeyDone;
-    _gf.delegate = self;
+//    _gf.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _gf.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _gf.returnKeyType = UIReturnKeyDone;
+    _gf.enabled = NO;
     _gf.tag = 113;
     
     UIView *line14 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(gfLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -623,10 +591,10 @@
     //_fzgd.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _fzgd.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _fzgd.font = [UIFont systemFontOfSize:16.0];
-    _fzgd.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _fzgd.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _fzgd.returnKeyType = UIReturnKeyDone;
-    _fzgd.delegate = self;
+//    _fzgd.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _fzgd.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _fzgd.returnKeyType = UIReturnKeyDone;
+    _fzgd.enabled = NO;
     _fzgd.tag = 114;
     
     UIView *line15 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(fzgdLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -656,10 +624,10 @@
     //_tqdx.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _tqdx.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _tqdx.font = [UIFont systemFontOfSize:16.0];
-    _tqdx.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _tqdx.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _tqdx.returnKeyType = UIReturnKeyDone;
-    _tqdx.delegate = self;
+//    _tqdx.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _tqdx.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _tqdx.returnKeyType = UIReturnKeyDone;
+    _tqdx.enabled = NO;
     _tqdx.tag = 115;
     
     UIView *line16 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tqdxLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -689,10 +657,10 @@
     //_status.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _status.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _status.font = [UIFont systemFontOfSize:16.0];
-    _status.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _status.keyboardType = UIKeyboardTypeDefault;
-    _status.returnKeyType = UIReturnKeyDone;
-    _status.delegate = self;
+//    _status.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _status.keyboardType = UIKeyboardTypeDefault;
+//    _status.returnKeyType = UIReturnKeyDone;
+    _status.enabled = NO;
     _status.tag = 116;
     
     UIView *line17 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(statusLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -722,10 +690,10 @@
     //_sg.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _sg.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _sg.font = [UIFont systemFontOfSize:16.0];
-    _sg.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _sg.keyboardType = UIKeyboardTypeDefault;
-    _sg.returnKeyType = UIReturnKeyDone;
-    _sg.delegate = self;
+//    _sg.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _sg.keyboardType = UIKeyboardTypeDefault;
+//    _sg.returnKeyType = UIReturnKeyDone;
+    _sg.enabled = NO;
     _sg.tag = 117;
     
     UIView *line18 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(sgLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -755,10 +723,10 @@
     //_sx.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _sx.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _sx.font = [UIFont systemFontOfSize:16.0];
-    _sx.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _sx.keyboardType = UIKeyboardTypeDefault;
-    _sx.returnKeyType = UIReturnKeyDone;
-    _sx.delegate = self;
+//    _sx.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _sx.keyboardType = UIKeyboardTypeDefault;
+//    _sx.returnKeyType = UIReturnKeyDone;
+    _sx.enabled = NO;
     _sx.tag = 118;
     
     UIView *line19 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(sxLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -788,10 +756,10 @@
     //_remarks.backgroundColor = UIColorFromRGB2(235, 235, 235);
     _remarks.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _remarks.font = [UIFont systemFontOfSize:16.0];
-    _remarks.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _remarks.keyboardType = UIKeyboardTypeDefault;
-    _remarks.returnKeyType = UIReturnKeyDone;
-    _remarks.delegate = self;
+//    _remarks.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _remarks.keyboardType = UIKeyboardTypeDefault;
+//    _remarks.returnKeyType = UIReturnKeyDone;
+    _remarks.enabled = NO;
     _remarks.tag = 119;
     
     UIView *line20 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(remarksLabel.frame)+kBorderWidth , fromwidth, 1)];
@@ -813,248 +781,26 @@
     [self.view addSubview:scroll];
 }
 
-#pragma mark - clickDone
--(void)clickDone:(id)sender{
-    UIButton *btn = (UIButton*)sender;
-    NSString *stringTag = [NSString stringWithFormat:@"%d",btn.tag];
-    int newTag = [[stringTag substringWithRange:NSMakeRange(0, 3)] intValue];
-    switch (newTag) {
-        case 100:
-            [_startDate resignFirstResponder];
-            break;
-        case 101:
-            [_endDate resignFirstResponder];
-            break;
-        case 102:
-            [_sn resignFirstResponder];
-            break;
-        case 103:
-            [_name resignFirstResponder];
-            break;
-        case 104:
-            [_bname resignFirstResponder];
-            break;
-        case 105:
-            [_unit resignFirstResponder];
-            break;
-        case 106:
-            [_num resignFirstResponder];
-            break;
-        case 107:
-            [_price resignFirstResponder];
-            break;
-        case 108:
-            [_plantDate resignFirstResponder];
-            break;
-        default:
-            break;
-    }
-}
-
--(void)dateChanged:(id)sender{
-    NSDate *selected = [(UIDatePicker*) sender date];
-    NSDateFormatter * formatter=   [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *stime = [formatter stringFromDate:selected];
-    _startDate.text = stime;
-}
-
-- (void)endDateChanged:(id)sender{
-    NSDate *selected = [(UIDatePicker*) sender date];
-    NSDateFormatter * formatter=   [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *stime = [formatter stringFromDate:selected];
-    _endDate.text = stime;
-}
-
-- (void)plantDateChanged:(id)sender{
-    NSDate *selected = [(UIDatePicker*) sender date];
-    NSDateFormatter * formatter=   [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *stime = [formatter stringFromDate:selected];
-    _plantDate.text = stime;
-}
-
 #pragma mark - backWareHouse
 -(void)backWareHouse{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - sendData
--(void)sendData{
-    MyLog(@"发布");
-    NSDictionary *info = [NSDictionary dictionary];
-    
-    NSString *startDate = [NSString stringWithFormat:@"%@",_startDate.text];
-    NSString *endDate = [NSString stringWithFormat:@"%@",_endDate.text];
-    NSString *bn = [NSString stringWithFormat:@"%@",_sn.text];
-    NSString *name = [NSString stringWithFormat:@"%@",_name.text];
-    NSString *bname = [NSString stringWithFormat:@"%@",_bname.text];
-    NSString *unit = [NSString stringWithFormat:@"%@",_unit.text];
-    NSString *num = [NSString stringWithFormat:@"%@",_num.text];
-    NSString *price = [NSString stringWithFormat:@"%@",_price.text];
-    NSString *plantdate = [NSString stringWithFormat:@"%@",_plantDate.text];
-    NSString *xj = [NSString stringWithFormat:@"%@",_xj.text];
-    NSString *mj = [NSString stringWithFormat:@"%@",_mj.text];
-    NSString *dj = [NSString stringWithFormat:@"%@",_dj.text];
-    NSString *height = [NSString stringWithFormat:@"%@",_height.text];
-    NSString *gf = [NSString stringWithFormat:@"%@",_gf.text];
-    NSString *fzgd = [NSString stringWithFormat:@"%@",_fzgd.text];
-    NSString *tqdx = [NSString stringWithFormat:@"%@",_tqdx.text];
-    NSString *status = [NSString stringWithFormat:@"%@",_status.text];
-    NSString *sg = [NSString stringWithFormat:@"%@",_sg.text];
-    NSString *sx = [NSString stringWithFormat:@"%@",_sx.text];
-    NSString *remarks = [NSString stringWithFormat:@"%@",_remarks.text];
-    
-    if (stringIsEmpty(startDate) || stringIsEmpty(endDate) || stringIsEmpty(bn) || stringIsEmpty(name) || stringIsEmpty(bname) || stringIsEmpty(unit) || stringIsEmpty(price) || stringIsEmpty(plantdate) || stringIsEmpty(xj) || stringIsEmpty(mj) || stringIsEmpty(dj ) || stringIsEmpty(height) || stringIsEmpty(gf) || stringIsEmpty(fzgd) || stringIsEmpty(tqdx) || stringIsEmpty(status) || stringIsEmpty(sg) || stringIsEmpty(sx) || stringIsEmpty(remarks) || stringIsEmpty(num)) {
-        
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查并完善信息！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        [alert show];
-        
-    }else{
-        if ([self.did isEqual:@"0"]) {
-            info = @{@"startdate":startDate,
-                     @"enddate":endDate,
-                     @"bn":bn,
-                     @"name":name,
-                     @"bname":bname,
-                     @"unit":unit,
-                     @"num":num,
-                     @"price":price,
-                     @"plantdate":plantdate,
-                     @"xj":xj,
-                     @"mj":mj,
-                     @"dj":dj,
-                     @"height":height,
-                     @"gf":gf,
-                     @"fzdg":fzgd,
-                     @"tqdx":tqdx,
-                     @"status":status,
-                     @"sg":sg,
-                     @"sx":sx,
-                     @"remarks":remarks};
-        }else{
-            info = @{@"id":self.did,
-                     @"startdate":startDate,
-                     @"enddate":endDate,
-                     @"bn":bn,
-                     @"name":name,
-                     @"bname":bname,
-                     @"unit":unit,
-                     @"num":num,
-                     @"price":price,
-                     @"plantdate":plantdate,
-                     @"xj":xj,
-                     @"mj":mj,
-                     @"dj":dj,
-                     @"height":height,
-                     @"gf":gf,
-                     @"fzdg":fzgd,
-                     @"tqdx":tqdx,
-                     @"status":status,
-                     @"sg":sg,
-                     @"sx":sx,
-                     @"remarks":remarks};
-        }
-        
-        [MXHWareHouseTool dataWithSendInfo:info success:^(NSArray *data) {
-            for (NSString *s in data) {
-                NSString *code = [NSString stringWithFormat:@"%@",s];
-                if ([code isEqualToString:@"1"]) {
-                    [self.navigationController popViewControllerAnimated:YES];
-                }else{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"警告" message:@"发送失败，请检查内容或网络！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                }
-            }
-        } failure:^(NSError *error) {
-            nil;
-        }];
+#pragma mark - editData
+- (void) editData{
+    MXHSendData *sendData = [[MXHSendData alloc] init];
+    sendData.did = self.did;
+    [self.navigationController pushViewController:sendData animated:YES];
+}
+
+#pragma mark - 评分
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if(buttonIndex == 1){
+        nil;
     }
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-#pragma mark - 输入框监听方法
-//开始编辑输入框的时候，软键盘出现，执行此事件
-//- (void)textFieldDidBeginEditing:(UITextField *)textField
-//{
-//    //CGRect frame = textField.frame;
-//    CGFloat ty;
-//    
-//    ty = textField.frame.origin.y;
-//    MyLog(@"%f",ty);
-//    int offset = _from.frame.origin.y + ty - (self.view.frame.size.height - 216.0 - 88);//键盘高度216
-//    //    NSLog(@"origin: %f",_from.frame.origin.y);
-//    //    NSLog(@"textfield: %f",textField.frame.origin.y);
-//    //    NSLog(@"view: %f",self.view.frame.size.height);
-//    //    NSLog(@"offset: %d",offset);
-//    NSTimeInterval animationDuration = 0.30f;
-//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    float width = self.view.frame.size.width;
-//    float height = self.view.frame.size.height;
-//    
-//    if(offset > 0)
-//    {
-//        MyLog(@"%d",offset);
-//        if (offset > 212) {
-//            offset = offset - 212;
-//        }
-//        CGRect rect = CGRectMake(0.0f, -offset,width,height);
-//        _from.frame = rect;
-//        
-//    }
-//    [UIView commitAnimations];
-//}
-
-//当用户按下return键或者按回车键，keyboard消失
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-//输入框编辑完成以后，将视图恢复到原始状态
-//-(void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    NSTimeInterval animationDuration = 0.30f;
-//    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    CGRect rect = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
-//    //CGRect rect = CGRectMake(0.0f, 20.0f, self.view.frame.size.width, self.view.frame.size.height);
-//    _from.frame = rect;
-//    [UIView commitAnimations];
-//    //self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-//}
-
-//返回显示的列数
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
-}
-//返回当前列显示的行数
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return [_pickerArray count];
-}
-#pragma mark - uipickerview 代理
--(void)pickerView: (UIPickerView*)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    if (pickerView.tag == 1041) {
-        _bname.text = [[_pickerArray objectAtIndex:row] objectForKey:@"Name"];
-    }
-}
-#pragma mark Picker Delegate Methods
-//返回当前行的内容,此处是将数组中数值添加到滚动的那个显示栏上
--(NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [[_pickerArray objectAtIndex:row] objectForKey:@"Name"];
-}
 @end
