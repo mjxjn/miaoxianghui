@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MHTextField.h"
 
 // Application specific customization.
-@interface MXHWareHouseTextField : MHTextField
+@interface MXHWareHouseTextField : UITextField
 
 @end

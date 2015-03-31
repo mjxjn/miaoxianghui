@@ -76,4 +76,19 @@
         failure(error);
     }];
 }
+
++ (void)deleteDataWithSendInfo:(NSDictionary *)params success:(DataDeleteSuccessBlock)success failure:(DataFailureBlock)failure{
+    [HttpTool getWithPath:@"warehousedel" params:params success:^(id JSON) {
+        if (success == nil) return;
+        
+        // 解析json对象
+        NSString *code = JSON[@"code"];
+                // 回调block
+        success(code);
+    } failure:^(NSError *error) {
+        if (failure == nil) return;
+        
+        failure(error);
+    }];
+}
 @end

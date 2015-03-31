@@ -40,7 +40,6 @@
 		CF27E3401A721DDF00673F08 /* MXHAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = CF27E33F1A721DDF00673F08 /* MXHAccount.m */; };
 		CF27E34C1A7223FD00673F08 /* MXHMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CF27E34B1A7223FD00673F08 /* MXHMain.m */; };
 		CF27E34F1A7227C500673F08 /* MXHNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF27E34E1A7227C500673F08 /* MXHNavigation.m */; };
-		CF37D5B41AB6D2A900EE11D7 /* MHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37D5B31AB6D2A900EE11D7 /* MHTextField.m */; };
 		CF37D5BA1AB6D31900EE11D7 /* MXHWareHouseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37D5B91AB6D31900EE11D7 /* MXHWareHouseTextField.m */; };
 		CF3F1C2B1A7C64010053DBD4 /* ProvincesAndCities.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF3F1C2A1A7C64010053DBD4 /* ProvincesAndCities.plist */; };
 		CF3F1C561A7C861C0053DBD4 /* tree-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3F1C531A7C861C0053DBD4 /* tree-568h@2x.png */; };
@@ -254,8 +253,6 @@
 		CF27E34B1A7223FD00673F08 /* MXHMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXHMain.m; sourceTree = "<group>"; };
 		CF27E34D1A7227C500673F08 /* MXHNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXHNavigation.h; sourceTree = "<group>"; };
 		CF27E34E1A7227C500673F08 /* MXHNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXHNavigation.m; sourceTree = "<group>"; };
-		CF37D5B21AB6D2A900EE11D7 /* MHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTextField.h; sourceTree = "<group>"; };
-		CF37D5B31AB6D2A900EE11D7 /* MHTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTextField.m; sourceTree = "<group>"; };
 		CF37D5B81AB6D31900EE11D7 /* MXHWareHouseTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXHWareHouseTextField.h; sourceTree = "<group>"; };
 		CF37D5B91AB6D31900EE11D7 /* MXHWareHouseTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXHWareHouseTextField.m; sourceTree = "<group>"; };
 		CF3F1C2A1A7C64010053DBD4 /* ProvincesAndCities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProvincesAndCities.plist; sourceTree = "<group>"; };
@@ -923,8 +920,6 @@
 		CFC094BE1A84B90A0003C130 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CF37D5B21AB6D2A900EE11D7 /* MHTextField.h */,
-				CF37D5B31AB6D2A900EE11D7 /* MHTextField.m */,
 				CFC094CA1A85B2770003C130 /* MXHMyCell.h */,
 				CFC094CB1A85B2770003C130 /* MXHMyCell.m */,
 				CFC094CC1A85B2770003C130 /* MXHMyCellFrame.h */,
@@ -1374,7 +1369,6 @@
 			files = (
 				CF646C991AA40B2A00562C85 /* MXHWareHouseTool.m in Sources */,
 				CF3F1C9B1A7C9F780053DBD4 /* MXHSetting.m in Sources */,
-				CF37D5B41AB6D2A900EE11D7 /* MHTextField.m in Sources */,
 				CF2728EF1A88AFBC00296EA5 /* MJRefreshConst.m in Sources */,
 				CFC094EC1A85B2810003C130 /* UIImageView+AFNetworking.m in Sources */,
 				CF2728F41A88AFBC00296EA5 /* UIView+MJExtension.m in Sources */,
@@ -1556,8 +1550,10 @@
 				GCC_PREFIX_HEADER = "苗乡惠/苗乡惠-Prefix.pch";
 				INFOPLIST_FILE = "苗乡惠/苗乡惠-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1572,8 +1568,10 @@
 				GCC_PREFIX_HEADER = "苗乡惠/苗乡惠-Prefix.pch";
 				INFOPLIST_FILE = "苗乡惠/苗乡惠-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

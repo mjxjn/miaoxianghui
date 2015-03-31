@@ -179,7 +179,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier;
+    
+    static NSString *CellIdentifier = @"WareCell";
     
     MXHDataCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -199,6 +200,52 @@
     showData.did = [NSString stringWithFormat:@"%lld",cellFrame.info.did];
     [self.navigationController pushViewController:showData animated:YES];
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle == UITableViewCellEditingStyleDelete){
+        
+        MXHDataCellFrame *cellframe = _infoFrames[indexPath.row];
+        NSString *did = [NSString stringWithFormat:@"%lld",cellframe.info.did];
+        
+        [MXHWareHouseTool deleteDataWithSendInfo:@{@"id":did} success:^(NSString *code) {
+            if ([code isEqualToString:@"9999"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"警告" message:@"删除数据失败！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+        } failure:^(NSError *error) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"警告" message:@"删除数据失败！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }];
+        
+        [_infoFrames removeObjectAtIndex:indexPath.row];
+        
+        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+    }
+}
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return  @"删除";
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
+}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - tableView delaget methods

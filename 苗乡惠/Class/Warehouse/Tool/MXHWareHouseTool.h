@@ -13,6 +13,7 @@ typedef void (^DataSuccessBlock)(NSArray *demand);
 typedef void (^DataFailureBlock)(NSError *error);
 
 typedef void (^DataInfoSuccessBlock)(NSDictionary *data);
+typedef void (^DataDeleteSuccessBlock)(NSString *code);
 
 @interface MXHWareHouseTool : NSObject
 
@@ -21,4 +22,6 @@ typedef void (^DataInfoSuccessBlock)(NSDictionary *data);
 + (void)dataWithSendInfo:(NSDictionary *)params success:(DataSuccessBlock)success failure:(DataFailureBlock)failure;
 
 + (void)dataInfoWithSendInfo:(NSDictionary *)params success:(DataInfoSuccessBlock)success failure:(DataFailureBlock)failure;
+
++ (void)deleteDataWithSendInfo:(NSDictionary *)params success:(DataDeleteSuccessBlock)success failure:(DataFailureBlock)failure;
 @end
